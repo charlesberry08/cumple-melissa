@@ -1,3 +1,15 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#12082a">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Cumple 6 de Melissa">
+<meta property="og:description" content="Sábado 26 de septiembre, 3:00 p.m. · Casa Club, Fraccionamiento La Rioja. Misión especial HUNTR/X.">
+<meta property="og:image" content="https://charlesberry08.github.io/cumple-melissa/dance-poster.jpg">
+<meta property="og:url" content="https://charlesberry08.github.io/cumple-melissa/">
+<meta name="twitter:card" content="summary_large_image">
 <title>Cumple 6 de Melissa</title>
 <meta name="description" content="Invitación al cumpleaños número 6 de Melissa, con temática HUNTR/X.">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Nunito:wght@600;700;800&display=swap">
@@ -37,10 +49,10 @@
     position: relative;
     max-width: 460px;
     margin: 0 auto;
-    padding: 28px 20px 40px;
+    padding: 18px 16px calc(28px + env(safe-area-inset-bottom));
     display: flex;
     flex-direction: column;
-    gap: 28px;
+    gap: 22px;
   }
   /* fondo animado */
   .sky { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
@@ -55,8 +67,8 @@
   .page > * { position: relative; z-index: 1; }
 
   /* hero */
-  .hero { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
-  .logo { width: 170px; height: auto; filter: drop-shadow(0 0 12px rgba(255,47,168,0.8)); }
+  .hero { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+  .logo { width: 150px; height: auto; filter: drop-shadow(0 0 12px rgba(255,47,168,0.8)); }
   .eyebrow { margin: 0; font-size: 12px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); }
   .stage { width: 100%; max-width: 400px; aspect-ratio: 1 / 1; object-fit: cover; display: block; margin: 6px 0 2px; border-radius: 22px; border: 2px solid rgba(255,215,106,0.65); box-shadow: 0 0 0 6px rgba(255,47,168,0.18), 0 0 40px rgba(255,47,168,0.55); background: #1a0d3a; animation: rise 900ms cubic-bezier(.2,.8,.2,1) both; }
   @keyframes rise { from { opacity: 0.6; transform: translateY(14px); } to { opacity: 1; transform: none; } }
@@ -110,10 +122,13 @@
     .stage, .orb { animation: none; }
   }
   @media (min-width: 720px) {
-    .page { padding-top: 48px; }
+    .page { padding: 48px 20px 48px; gap: 28px; }
+    .logo { width: 170px; }
   }
 </style>
 
+</head>
+<body>
 <div class="sky" aria-hidden="true">
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
@@ -314,3 +329,6 @@
     requestAnimationFrame(frame);
   })();
 </script>
+
+</body>
+</html>
