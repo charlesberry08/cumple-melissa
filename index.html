@@ -66,6 +66,41 @@
   @keyframes drift3 { from { transform: translate(0, 0); } to { transform: translate(-140px, -90px); } }
   .page > * { position: relative; z-index: 1; }
 
+  /* sobre de entrada */
+  body.locked { overflow: hidden; }
+  .intro { position: fixed; inset: 0; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; padding: 24px; background: radial-gradient(ellipse at 50% 40%, rgba(124,58,237,0.35) 0%, rgba(18,8,42,0) 60%), rgba(18,8,42,0.94); transition: opacity 600ms ease 1100ms, visibility 0s linear 1700ms; }
+  .intro.open { opacity: 0; visibility: hidden; }
+  .envelope { position: relative; width: 300px; height: 200px; padding: 0; border: 0; background: none; cursor: pointer; perspective: 900px; -webkit-tap-highlight-color: transparent; animation: float 3.4s ease-in-out infinite; }
+  .envelope:focus-visible { outline: 3px solid var(--ice); outline-offset: 10px; border-radius: 16px; }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  .envelope > span { position: absolute; display: block; }
+  .env-back { inset: 0; border-radius: 14px; background: #2a1650; border: 2px solid rgba(255,215,106,0.7); box-shadow: 0 24px 60px rgba(0,0,0,0.55), 0 0 40px rgba(255,47,168,0.35); }
+  .env-card { left: 14px; right: 14px; top: 12px; height: 176px; border-radius: 10px; background: linear-gradient(160deg, #3b1a6e, #1b0a33); border: 1.5px solid rgba(255,215,106,0.6); display: flex; align-items: center; justify-content: center; text-align: center; transition: transform 700ms cubic-bezier(.2,.8,.2,1) 350ms; }
+  .env-card-inner { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .env-eyebrow { font-size: 10px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); }
+  .env-name { font-family: 'Orbitron', 'Arial Black', Impact, sans-serif; font-size: 28px; color: #ffffff; text-shadow: 0 0 14px rgba(255,47,168,0.9); letter-spacing: 1px; }
+  .env-sub { font-size: 12px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--pink-soft); }
+  .env-front { inset: 0; border-radius: 14px; background: linear-gradient(180deg, #1d0f43, #150a33); clip-path: polygon(0 0, 50% 58%, 100% 0, 100% 100%, 0 100%); border: 2px solid rgba(255,215,106,0.45); box-sizing: border-box; }
+  .env-flap { left: 0; right: 0; top: 0; height: 122px; background: linear-gradient(180deg, #4c2a8a, #2a1650); clip-path: polygon(0 0, 100% 0, 50% 100%); transform-origin: top center; transition: transform 650ms cubic-bezier(.4,0,.2,1); backface-visibility: hidden; border-top-left-radius: 14px; border-top-right-radius: 14px; }
+  .env-seal { left: 50%; top: 92px; width: 60px; height: 60px; margin-left: -30px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff0b3, #ffd76a 45%, #d99a1a 100%); box-shadow: 0 6px 18px rgba(0,0,0,0.45), 0 0 26px rgba(255,215,106,0.7); display: flex; align-items: center; justify-content: center; transition: transform 350ms ease, opacity 350ms ease; }
+  .env-seal svg { width: 30px; height: 30px; }
+  .envelope.open { animation: none; }
+  .envelope.open .env-flap { transform: rotateX(180deg); }
+  .envelope.open .env-seal { transform: scale(1.5); opacity: 0; }
+  .envelope.open .env-card { transform: translateY(-150px); }
+  .intro-hint { margin: 0; font-size: 15px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); animation: pulse 1.8s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 0.55; } 50% { opacity: 1; } }
+  .intro-note { margin: 0; font-size: 12px; color: var(--muted); }
+  body.revealed .page { animation: rise 700ms cubic-bezier(.2,.8,.2,1) both; }
+
+  /* botón de sonido */
+  .sound { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom)); z-index: 5; width: 48px; height: 48px; border-radius: 50%; border: 1.5px solid rgba(255,215,106,0.7); background: rgba(18,8,42,0.85); color: var(--gold); display: none; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,0.4); }
+  .sound.show { display: flex; }
+  .sound:focus-visible { outline: 3px solid var(--ice); outline-offset: 3px; }
+  .sound .off { display: none; }
+  .sound.muted .on { display: none; }
+  .sound.muted .off { display: block; }
+
   /* hero */
   .hero { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
   .logo { width: 150px; height: auto; filter: drop-shadow(0 0 12px rgba(255,47,168,0.8)); }
@@ -119,7 +154,8 @@
   footer p { margin: 0; }
 
   @media (prefers-reduced-motion: reduce) {
-    .stage, .orb { animation: none; }
+    .stage, .orb, .envelope, .intro-hint, body.revealed .page { animation: none; }
+    .intro { transition: opacity 300ms ease, visibility 0s linear 300ms; }
   }
   @media (min-width: 720px) {
     .page { padding: 48px 20px 48px; gap: 28px; }
@@ -127,8 +163,22 @@
   }
 </style>
 
-</head>
-<body>
+</head>\n<body>\n<div class="intro" id="intro">
+  <button class="envelope" id="abrir" type="button" aria-label="Abrir la invitación">
+    <span class="env-back"></span>
+    <span class="env-card"><span class="env-card-inner"><span class="env-eyebrow">Misión especial</span><span class="env-name">MELISSA</span><span class="env-sub">cumple 6 años</span></span></span>
+    <span class="env-front"></span>
+    <span class="env-flap"></span>
+    <span class="env-seal"><svg viewBox="0 0 24 24" fill="#3b0a5c" aria-hidden="true"><path d="M12 0C13 8 16 11 24 12C16 13 13 16 12 24C11 16 8 13 0 12C8 11 11 8 12 0Z"></path></svg></span>
+  </button>
+  <p class="intro-hint">Toca para abrir la invitación</p>
+  <p class="intro-note">Sube el volumen</p>
+</div>
+<audio id="musica" src="golden.mp3" loop preload="auto"></audio>
+<button class="sound" id="sonido" type="button" aria-label="Silenciar música">
+  <svg class="on" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"></path><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"></path></svg>
+  <svg class="off" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"></path><path d="M17 9l5 6M22 9l-5 6"></path></svg>
+</button>
 <div class="sky" aria-hidden="true">
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
@@ -328,7 +378,36 @@
     resize();
     requestAnimationFrame(frame);
   })();
-</script>
+</script>\n
+<script>
+  (function () {
+    var intro = document.getElementById("intro");
+    var sobre = document.getElementById("abrir");
+    var musica = document.getElementById("musica");
+    var btn = document.getElementById("sonido");
+    var video = document.querySelector("video");
+    document.body.classList.add("locked");
+    musica.volume = 0.85;
 
-</body>
-</html>
+    sobre.addEventListener("click", function () {
+      if (sobre.classList.contains("open")) return;
+      sobre.classList.add("open");
+      intro.classList.add("open");
+      document.body.classList.remove("locked");
+      document.body.classList.add("revealed");
+      var p = musica.play();
+      if (p && p.catch) p.catch(function () {});
+      if (video) { var v = video.play(); if (v && v.catch) v.catch(function () {}); }
+      btn.classList.add("show");
+      window.scrollTo(0, 0);
+    });
+
+    btn.addEventListener("click", function () {
+      musica.muted = !musica.muted;
+      btn.classList.toggle("muted", musica.muted);
+      btn.setAttribute("aria-label", musica.muted ? "Activar música" : "Silenciar música");
+      if (!musica.muted && musica.paused) { var p = musica.play(); if (p && p.catch) p.catch(function () {}); }
+    });
+  })();
+</script>
+\n</body>\n</html>\n
